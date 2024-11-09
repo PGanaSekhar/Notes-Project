@@ -1,5 +1,7 @@
 package com.example.notesproject;
 
+import android.annotation.SuppressLint;
+import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -44,10 +46,10 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = dbHelper.getAllNotes();
         if (cursor.moveToFirst()) {
             do {
-                int id = cursor.getInt(cursor.getColumnIndex("_id"));
-                String title = cursor.getString(cursor.getColumnIndex("title"));
-                String content = cursor.getString(cursor.getColumnIndex("content"));
-                String category = cursor.getString(cursor.getColumnIndex("category"));
+                @SuppressLint("Range") int id = cursor.getInt(cursor.getColumnIndex("_id"));
+                @SuppressLint("Range") String title = cursor.getString(cursor.getColumnIndex("title"));
+                @SuppressLint("Range") String content = cursor.getString(cursor.getColumnIndex("content"));
+                @SuppressLint("Range") String category = cursor.getString(cursor.getColumnIndex("category"));
                 notes.add(new Note(id, title, content, category));
             } while (cursor.moveToNext());
         }

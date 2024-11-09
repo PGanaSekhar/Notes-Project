@@ -71,4 +71,18 @@ public class NotesDatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return rowsDeleted > 0;
     }
+
+    public Note getNoteById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_NAME, null, COLUMN_ID + "=?", new String[]{String.valueOf(id)}, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            String title = cursor.getString(cursor.getColumnIndex("title"));
+            String content = cursor.getString(cursor.getColumnIndex("content"));
+            String category = cursor.getString(cursor.getColumnIndex("category"));
+            cursor.close();
+            return new Note(id, title, content, category);
+        }
+        return null;
+    }
+
 }
