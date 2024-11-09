@@ -1,10 +1,13 @@
 package com.example.notesproject;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
 
 public class NotesDatabaseHelper extends SQLiteOpenHelper {
 
@@ -83,6 +86,27 @@ public class NotesDatabaseHelper extends SQLiteOpenHelper {
             return new Note(id, title, content, category);
         }
         return null;
+    }
+
+    public ArrayList<String> getAllCategories() {
+        ArrayList<String> categories = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT DISTINCT category FROM " + TABLE_NAME, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                String category = cursor.getString(cursor.getColumnIndex("category"));
+                categories.add(category);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return categories;
+    }
+
+    // Method to retrieve notes by category
+    public Cursor getNotesByCategory(String category) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query(TABLE_NAME, null, "category = ?", new String[]{category}, null, null, null);
     }
 
 }

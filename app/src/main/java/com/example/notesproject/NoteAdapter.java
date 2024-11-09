@@ -56,4 +56,9 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             noteCategory = itemView.findViewById(R.id.noteCategory);
         }
     }
+
+    public void updateNotes(ArrayList<Note> newNotes) {
+        this.notes = newNotes;
+        notifyDataSetChanged();
+    }
 }
